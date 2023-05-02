@@ -26,18 +26,22 @@
 
 
 ## 추가 구현 내용
-- 트래픽이 많은 상황을 대비해 '커피 메뉴 목록 조회 API' Embedded Redis를 활용하여 로컬 캐시 적용하여 요청을 최소화(만료 시간 : 5분)
-- Reids RestTemplate 사용해 주문 내역 인기 메뉴 관리
-  - Redis와 Schedule을 이용한 동시성 제어
-  - Redis RedisTemplate 사용한 Hash Key/Value 적용
-      - RedisTemplate increment 메서드를 사용해 Key 에 대한 Value 증가
-      - Key : 메뉴ID, Value : 주문횟수
-      - Embedded Schedule 사용
-        - Redis -> DB로 배치 수행 (5초)
-  - 일주일 주기 삭제 작업 수행
-    - popular_coffee_menu 테이블 데이터 삭제
-    - Redis POPULAR_MENU 키 제거 
-
+1. 트래픽이 많은 상황을 대비해 '커피 메뉴 목록 조회 API' Embedded Redis를 활용하여 로컬 캐시 적용하여 요청을 최소화(만료 시간 : 5분)
+2. Reids RestTemplate 사용해 주문 내역 인기 메뉴 관리
+   - Redis와 Schedule을 이용한 동시성 제어
+     - Redis RedisTemplate 사용한 Hash Key/Value 적용
+       - RedisTemplate increment 메서드를 사용해 Key 에 대한 Value 증가
+       - Key : 메뉴ID, Value : 주문횟수
+       - Embedded Schedule 사용
+         - Redis -> DB로 배치 수행 (5초)
+   - 일주일 주기 삭제 작업 수행
+     - popular_coffee_menu 테이블 데이터 삭제
+     - Redis POPULAR_MENU 키 제거 
+3. AOP 이용해 주문/결재 완료 시, 주문 내역을 데이터 수집 플랫폼으로 전송
+   - Annotation 추가 및 적용하여 주문/결재 완료 시, 데이터 전송 로직 수행 
+   - 비동기 데이터 전송을 위한 Kafka 적용
+     - 메시지 전달의 빠른 속도와 대규모 데이터 처리가 필요한 경우라 생각되어 Kafka 선택
+    
 
 ## 관계도
 ![relation](https://user-images.githubusercontent.com/58737008/235567296-2ca9bdfd-dd8a-4387-b146-2bad2e38a356.png)
@@ -131,8 +135,7 @@ http://localhost:8080/order
   "userId": 2,
   "menuId": 3,
   "totalPrice": 5500,
-  "balancePoint": 15000,
-  "orderDateTime": "2023-05-02T13:17:45.192112"
+  "balancePoint": 15000
 }
 ```
 <br />
