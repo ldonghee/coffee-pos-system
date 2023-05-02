@@ -29,6 +29,7 @@
 1. 트래픽이 많은 상황을 대비해 '커피 메뉴 목록 조회 API' Embedded Redis를 활용하여 로컬 캐시 적용하여 요청을 최소화(만료 시간 : 5분)
 2. Reids RestTemplate 사용해 주문 내역 인기 메뉴 관리
    - Redis와 Schedule을 이용한 동시성 제어
+     - 주문/결재 완료 시, AOP 데이터 분석 단계에서 캐시에 저장 수행
      - Redis RedisTemplate 사용한 Hash Key/Value 적용
        - RedisTemplate increment 메서드를 사용해 Key 에 대한 Value 증가
        - Key : 메뉴ID, Value : 주문횟수
