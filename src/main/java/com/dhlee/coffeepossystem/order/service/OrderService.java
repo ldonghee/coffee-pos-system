@@ -26,7 +26,6 @@ public class OrderService {
 	private final PointService pointService;
 	private final CoffeeMenuService coffeeMenuService;
 	private final OrderRepository orderRepository;
-	private final CacheService cacheService;
 
 	@DataAnalysis
 	public OrderResponse orderAndPay(OrderRequest orderRequest) {
@@ -47,7 +46,6 @@ public class OrderService {
 
 		orderDetail.setOrder(order);
 		order.addOrderDetail(orderDetail);
-		cacheService.savePopularMenu(coffeeMenu.getId());
 
 		return orderRepository.save(order);
 	}
