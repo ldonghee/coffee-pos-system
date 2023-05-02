@@ -1,6 +1,5 @@
 package com.dhlee.coffeepossystem.order.domain;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,14 +28,11 @@ public class Order extends BaseEntity {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails = new ArrayList<>();
 
-	private LocalDateTime orderDateTime;
-
 	public Order() {
 	}
 
 	public Order(User user) {
 		this.user = user;
-		this.orderDateTime = LocalDateTime.now();
 	}
 
 	public void addOrderDetail(OrderDetail orderDetail) {

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.dhlee.coffeepossystem.coffeeMenu.domain.PopularCoffeeMenu;
 import com.dhlee.coffeepossystem.coffeeMenu.repository.PopularCoffeeMenuRepository;
-import com.dhlee.coffeepossystem.common.component.CacheService;
+import com.dhlee.coffeepossystem.common.component.cache.CacheService;
 
 @Slf4j
 @Component

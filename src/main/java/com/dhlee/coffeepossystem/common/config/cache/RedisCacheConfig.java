@@ -1,4 +1,4 @@
-package com.dhlee.coffeepossystem.common.config.redis;
+package com.dhlee.coffeepossystem.common.config.cache;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

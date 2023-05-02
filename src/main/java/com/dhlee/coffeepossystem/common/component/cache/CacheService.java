@@ -1,4 +1,4 @@
-package com.dhlee.coffeepossystem.common.component;
+package com.dhlee.coffeepossystem.common.component.cache;
 
 import java.util.Map;
 

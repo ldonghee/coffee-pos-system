@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.dhlee.coffeepossystem.coffeeMenu.domain.CoffeeMenu;
 import com.dhlee.coffeepossystem.coffeeMenu.service.CoffeeMenuService;
-import com.dhlee.coffeepossystem.common.component.CacheService;
+import com.dhlee.coffeepossystem.common.aop.analysis.DataAnalysis;
+import com.dhlee.coffeepossystem.common.component.cache.CacheService;
 import com.dhlee.coffeepossystem.order.domain.Order;
 import com.dhlee.coffeepossystem.order.domain.OrderDetail;
-import com.dhlee.coffeepossystem.order.dto.OrderData;
 import com.dhlee.coffeepossystem.order.dto.OrderRequest;
 import com.dhlee.coffeepossystem.order.dto.OrderResponse;
 import com.dhlee.coffeepossystem.order.repository.OrderRepository;
@@ -26,9 +26,9 @@ public class OrderService {
 	private final PointService pointService;
 	private final CoffeeMenuService coffeeMenuService;
 	private final OrderRepository orderRepository;
-	private final MockDataSender dataSender;
 	private final CacheService cacheService;
 
+	@DataAnalysis
 	public OrderResponse orderAndPay(OrderRequest orderRequest) {
 		Point point = pointService.findPointByUserId(orderRequest.getUserId());
 		CoffeeMenu coffeeMenu = coffeeMenuService.findById(orderRequest.getMenuId());
@@ -37,8 +37,6 @@ public class OrderService {
 		Order order = saveOrder(point, coffeeMenu);
 		// 결재
 		point.pay(order.getTotalPrice());
-		// 주문 내역 전송
-		sendData(order);
 
 		return OrderResponse.of(order, point);
 	}
@@ -52,14 +50,5 @@ public class OrderService {
 		cacheService.savePopularMenu(coffeeMenu.getId());
 
 		return orderRepository.save(order);
-	}
-
-	private void sendData(Order order) {
-		try {
-			dataSender.send(new OrderData(order));
-		} catch (Exception e) {
-			log.error("Failed to Send Data : " + e.getMessage());
-			// throw new RuntimeException();
-		}
 	}
 }

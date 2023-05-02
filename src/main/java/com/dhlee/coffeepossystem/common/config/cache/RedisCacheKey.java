@@ -1,4 +1,4 @@
-package com.dhlee.coffeepossystem.common.config.redis;
+package com.dhlee.coffeepossystem.common.config.cache;
 
 public enum RedisCacheKey {
 	POPULAR_MENU,

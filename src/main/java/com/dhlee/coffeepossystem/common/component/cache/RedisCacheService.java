@@ -1,4 +1,4 @@
-package com.dhlee.coffeepossystem.common.component;
+package com.dhlee.coffeepossystem.common.component.cache;
 
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import com.dhlee.coffeepossystem.common.config.redis.RedisCacheKey;
+import com.dhlee.coffeepossystem.common.config.cache.RedisCacheKey;
 
 @Slf4j
 @Component
